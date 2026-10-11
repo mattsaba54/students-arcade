@@ -1,3 +1,4 @@
+
 import random
 
 AUTHOR = "Matthew Sabadac"
@@ -19,3 +20,7 @@ def run():
     message = random.choice(messages)
 
     return f"Motivational Message: {message}"
+
+
+if __name__ == "__main__":
+    print(run())
