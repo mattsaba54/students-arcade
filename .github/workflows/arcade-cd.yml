@@ -1,0 +1,45 @@
+
+# Students Arcade continuous delivery workflow
+name: Arcade CD
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch: {}
+
+jobs:
+  package-arcade:
+    name: Package Students Arcade
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Check Python syntax
+        run: python -m compileall -q .
+
+      - name: Verify the Arcade launcher
+        run: timeout 20s python main.py > run-log.txt
+
+      - name: Prepare release folder
+        run: |
+          mkdir -p arcade-release/plugins
+          cp main.py run-log.txt arcade-release/
+          if [ -f README.md ]; then cp README.md arcade-release/; fi
+          cp -r plugins/. arcade-release/plugins/
+          if [ -f requirements.txt ]; then cp requirements.txt arcade-release/; fi
+
+      - name: Create release ZIP
+        run: zip -r students-arcade-release.zip arcade-release
+
+      - name: Upload Arcade artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: students-arcade-release
+          path: students-arcade-release.zip
