@@ -1,4 +1,4 @@
-# Students Arcade continuous delivery workflow
+# Trigger GitHub Actions to recognize Arcade CD
 name: Arcade CD
 
 on:
