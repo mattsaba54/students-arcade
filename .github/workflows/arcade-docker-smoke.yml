@@ -1,0 +1,28 @@
+
+name: Arcade Docker Smoke Test
+
+on:
+  push:
+    branches:
+      - lab13-docker-preparation
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  docker-smoke-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Build Docker image
+        run: docker build -t students-arcade:lab13 .
+
+      - name: Run Students Arcade container
+        run: docker run --rm students-arcade:lab13
+
+      - name: Verify Docker image
+        run: docker image inspect students-arcade:lab13
