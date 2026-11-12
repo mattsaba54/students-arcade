@@ -12,5 +12,5 @@ RUN if [ -f requirements.txt ]; then pip install --no-cache-dir -r requirements.
 COPY main.py ./
 COPY plugins ./plugins
 
-CMD ["python", "main.py"]
+CMD ["python", "missing.py"]
 
